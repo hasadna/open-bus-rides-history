@@ -24,3 +24,5 @@ jobs:
         with:
           app: openbus
           updates: ridesHistoryImage=ghcr.io/hasadna/open-bus-rides-history:${{ github.sha }}
+        env:
+          HASADNA_K8S_DEPLOY_KEY: ${{ secrets.HASADNA_K8S_DEPLOY_KEY }}
