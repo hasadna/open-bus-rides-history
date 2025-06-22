@@ -13,7 +13,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/setup-buildx-action@v3
-      - uses: docker/build-push-action@v6
+      - id: docker_build
+        uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ghcr.io/hasadna/open-bus-rides-history:latest
+          tags: |
+            ghcr.io/hasadna/open-bus-rides-history:latest
+            ghcr.io/hasadna/open-bus-rides-history:${{ github.sha }}
+      - uses: hasadna/hasadna-k8s/.github/actions/deploy@master
+        with:
+          app: openbus
+          updates: ridesHistoryImage=ghcr.io/hasadna/open-bus-rides-history:${{ github.sha }}
